@@ -4,13 +4,17 @@ const ClubeController = require('./controllers/ClubeController')
 
 const routes = express.Router()
 
-routes.post('/clubes', ClubeController.store)
-routes.get('/clubes', ClubeController.index)
+routes.post('/clubes', ClubeController.store) // criar um novo clube
+routes.get('/clubes', ClubeController.index) // listar clubes
+routes.delete('/clubes/:clube_id', ClubeController.drop) // deletar clube
+routes.delete('/clubes/:clube_id/socios', SocioController.delete) // desassociar um sócio de um clube
 
-routes.get('/socios/:socio_id/', SocioController.index)
-routes.get('/socios/', SocioController.index)
+routes.post('/socios/register', SocioController.store) // criar sócios
+routes.delete('/socios/delete/:socio_id', SocioController.drop) // deletar sócio
 
-routes.post('/socios/register', SocioController.store)
-routes.delete('/clubes/:clube_id/socios', SocioController.delete)
+
+routes.get('/socios/:socio_id/', SocioController.index) // listar clubes de um sócio
+routes.get('/socios/', SocioController.index) // listar todos os sócios e seus clubes
+
 
 module.exports = routes

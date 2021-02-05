@@ -57,5 +57,16 @@ module.exports = {
         await clube.removeSocio(socio)
 
         return res.json()
+    },
+
+    async drop(req, res) {
+        const { socio_id } = req.params
+
+        const socio = await Socio.findOne({
+            where: { id: socio_id }
+        })
+        
+        await socio.destroy()
+        return res.json('Sócio apagado com sucesso')
     }
 } 
