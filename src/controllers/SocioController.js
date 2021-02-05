@@ -22,21 +22,25 @@ module.exports = {
     },
 
     async store(req, res) {
-        const { name, clube_id } = req.body
-
-        const clube = await Clube.findByPk(clube_id)
-
-
-        if (!clube) {
-            return res.status(400).json({ error: 'Clube não encontrado' })
+        const { name, ids } = req.body
+        console.log(ids)
+        for (const id of ids) {
+            const clube = await Clube.findByPk(id)
+            
+            if (!clube) {
+                return res.status(400).json({ error: 'Clube não encontrado' })
+            }
         }
-
+        
         const [socio] = await Socio.findOrCreate({
             where: { name }
         })
 
-        await clube.addSocios(socio)
-
+        for (const id of ids) {
+            const clube = await Clube.findByPk(id)
+            await clube.addSocios(socio)
+        }
+        
         return res.json(socio)
     },
 
